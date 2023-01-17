@@ -3,6 +3,7 @@ CREATE TABLE date (
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name varchar(100) NOT NULL,
     location TEXT NOT NULL,
+    main_img TEXT,
     user_id INT NOT NULL,
     opentime TIME,
     clodetime TIME,
