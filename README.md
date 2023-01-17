@@ -2,6 +2,9 @@
 
 개발목적 - 매번 데이트 장소를 찾는 번거러움을 해소하기위해 지역 및 분류에 따라 (ex. 지역 : 경기도 성남시, 분류 : 저녁식사 ) 다른 사람들의 데이트 장소 및 데이트 코스를 랜덤으로 매칭.
 
+# **DB modeling**
+https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FmT88w%2FbtrWwoRAUt0%2FTzIsx2lAYR8M8V1NAVhUgk%2Fimg.png
+
 # **기능구현**
 
 ### 1.회원가입.
