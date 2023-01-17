@@ -6,7 +6,7 @@ CREATE TABLE date (
     main_img TEXT,
     user_id INT NOT NULL,
     opentime TIME,
-    clodetime TIME,
+    closetime TIME,
     desciption TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
