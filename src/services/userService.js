@@ -17,7 +17,8 @@ const signUp = async (email, password, name) => {
       }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await userDao.userSignUp(email, hashedPassword, name);
+    const signup = await userDao.userSignUp(email, hashedPassword, name);
+    return signup;
 };
 
 const signIn = async (email, password) => {

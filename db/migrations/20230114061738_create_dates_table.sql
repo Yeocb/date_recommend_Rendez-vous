@@ -7,7 +7,7 @@ CREATE TABLE date (
     user_id INT NOT NULL,
     opentime TIME,
     closetime TIME,
-    desciption TEXT,
+    description TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
