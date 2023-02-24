@@ -120,6 +120,66 @@ const recommendDate = async (location, categoryId) => {
 	}
 };
 
+const recommendRandom = async () => {
+	try{
+		return await AppDataSource.query(
+			`SELECT
+				d.id,
+				d.name AS '상호명',
+				d.location AS '위치',
+				d.description AS '키워드',
+				(SELECT JSON_ARRAYAGG 
+					(dc.category_id) 
+				FROM date_category dc
+				WHERE dc.date_id = d.id) AS '카테고리'
+			FROM date d
+			INNER JOIN date_category dc ON dc.date_id = d.id
+			GROUP BY d.id
+			ORDER BY RAND() LIMIT 1
+			`
+		)
+	} catch (err) {
+		const error = new Error(err,'INVALID_DATA_INPUT');
+		error.statusCode = 500;
+		throw error;
+	}
+};
+
+const updateDate = async (dateId, name, location, description, opentime, closetime) => {
+	try{
+		return await AppDataSource.query(
+			`UPDATE date
+				SET	name = ?,
+					location = ?,
+					description = ?,
+					opentime= ?,
+					closetime = ?
+				WHERE date.id ='${dateId}'
+			`,
+			[name, location, description, opentime, closetime]
+		);
+	} catch (err) {
+		const error = new Error(err,'INVALID_DATA_INPUT');
+		error.statusCode = 500;
+		throw error;
+	}
+};
+
+const deleteCategory = async (dateId, categoryId) => {
+	try{
+		return await AppDataSource.query(
+			`DELETE FROM date_category
+				WHERE date_id ='${dateId}' AND category_id ='${categoryId}'
+			`,
+			[dateId, categoryId]
+		);
+	} catch (err) {
+		const error = new Error(err,'INVALID_DATA_INPUT');
+		error.statusCode = 500;
+		throw error;
+	}
+};
+
 module.exports = {
     postDate,
 	dateNameLocationCheck,
@@ -128,4 +188,7 @@ module.exports = {
 	categoryCheck,
 	getList,
 	recommendDate,
+	recommendRandom,
+	updateDate,
+	deleteCategory
 };

@@ -1,4 +1,5 @@
 const dateDao = require('../models/dateDao');
+const randNum = require('../utils/randNum')
 
 const postDate = async (name, location, mainImg, userId, opentime, closetime, description) => {
     const dateNameLocationCheck = await dateDao.dateNameLocationCheck(name, location);
@@ -42,10 +43,30 @@ const recommendManyDate = async(location, categoryId, location2, categoryId2, lo
     return recommendDate;
 };
 
+const recommendRandom = async() => {
+    let randdate = [];
+    for (let i = 0; i < randNum.randNum; i++) {
+        date = await dateDao.recommendRandom()
+        randdate.push(date)
+    }
+    return randdate;
+};
+
+const updateDate = async(dateId, name, location, description, opentime, closetime) => {
+    return dateDao.updateDate(dateId, name, location, description, opentime, closetime)
+};
+
+const deleteCategory = async(dateId, categoryId) => {
+    return dateDao.deleteCategory(dateId, categoryId);
+};
+
 module.exports = {
     postDate,
     postCategory,
     getDateList,
     recommendDate,
-    recommendManyDate
+    recommendManyDate,
+    recommendRandom,
+    updateDate,
+    deleteCategory
 };
