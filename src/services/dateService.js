@@ -53,11 +53,16 @@ const recommendRandom = async() => {
 };
 
 const updateDate = async(dateId, name, location, description, opentime, closetime) => {
-    return dateDao.updateDate(dateId, name, location, description, opentime, closetime)
+    return await dateDao.updateDate(dateId, name, location, description, opentime, closetime)
 };
 
 const deleteCategory = async(dateId, categoryId) => {
-    return dateDao.deleteCategory(dateId, categoryId);
+    return await dateDao.deleteCategory(dateId, categoryId);
+};
+
+const deleteDate = async(dateId) => {
+    await dateDao.deleteDate(dateId);
+    await dateDao.deleteAllCategory(dateId);
 };
 
 module.exports = {
@@ -68,5 +73,6 @@ module.exports = {
     recommendManyDate,
     recommendRandom,
     updateDate,
-    deleteCategory
+    deleteCategory,
+    deleteDate
 };

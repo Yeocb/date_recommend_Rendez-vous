@@ -69,7 +69,7 @@ const recommendRandom = async (req,res) => {
 
 const updateDate = async (req,res) => {
     try{
-        const dateId = req.params.dateid;
+        const { dateId }= req.params;
         const { name, location, description, opentime, closetime} = req.body;
         await dateService.updateDate(dateId, name, location, description, opentime, closetime);
         res.status(201).json({ message: "정보가 수정되었습니다."});
@@ -82,10 +82,22 @@ const updateDate = async (req,res) => {
 
 const deleteCategory = async(req,res) => {
     try{
-        const dateId = req.params.dateid;
-        const categoryId = req.body.categoryId;
+        const { dateId } = req.params;
+        const { categoryId } = req.body;
         await dateService.deleteCategory(dateId,categoryId);
         res.status(201).json({ message: "해당 카테고리가 삭제되었습니다."});
+    } catch (err) {
+        res
+        .status(err.statusCode ? err.statusCode : 400)
+        .json({ message: err.message });
+    }
+};
+
+const deleteDate = async(req,res) => {
+    try{
+        const { dateId }= req.params;
+        await dateService.deleteDate(dateId);
+        res.status(201).json({ message: "해당 데이트장소가 삭제되었습니다."});
     } catch (err) {
         res
         .status(err.statusCode ? err.statusCode : 400)
@@ -101,5 +113,6 @@ module.exports = {
     recommendManyDate,
     recommendRandom,
     updateDate,
-    deleteCategory
+    deleteCategory,
+    deleteDate
 };
