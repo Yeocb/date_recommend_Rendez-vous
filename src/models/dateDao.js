@@ -180,6 +180,34 @@ const deleteCategory = async (dateId, categoryId) => {
 	}
 };
 
+const deleteDate = async (dateId) => {
+	try{
+		return await AppDataSource.query(
+			`DELETE FROM date
+				WHERE id = '${dateId}'
+			`
+		);
+	} catch (err) {
+		const error = new Error(err,'INVALID_DATA_INPUT');
+		error.statusCode = 500;
+		throw error;
+	}
+};
+
+const deleteAllCategory = async (dateId) => {
+	try{
+		return await AppDataSource.query(
+			`DELETE FROM date_category
+				WHERE date_id = '${dateId}'
+			`
+		);
+	} catch (err) {
+		const error = new Error(err,'INVALID_DATA_INPUT');
+		error.statusCode = 500;
+		throw error;
+	}
+};
+
 module.exports = {
     postDate,
 	dateNameLocationCheck,
@@ -190,5 +218,7 @@ module.exports = {
 	recommendDate,
 	recommendRandom,
 	updateDate,
-	deleteCategory
+	deleteCategory,
+	deleteDate,
+	deleteAllCategory
 };
