@@ -1,28 +1,18 @@
 const dateDao = require('../models/dateDao');
-const randNum = require('../utils/randNum')
+const AppError = require('../middlewares/appError')
+const randNum = require('../utils/randNum');
 
 const postDate = async (name, location, mainImg, userId, opentime, closetime, description) => {
     const dateNameLocationCheck = await dateDao.dateNameLocationCheck(name, location);
     const dateLocationCHeck = await dateDao.dateLocationCheck(location);
-    if (dateNameLocationCheck) {
-        const err = new Error("중복된 정보입니다.")
-        err.statusCode = 409;
-        throw err}
-    else if(dateLocationCHeck) {
-        const err = new Error("다른 이름으로 등록된 장소입니다.")
-        err.statusCode = 409;
-        throw err};
-    const postDate = await dateDao.postDate(name, location, mainImg, userId, opentime, closetime, description);
-    return postDate;
+    if (dateNameLocationCheck) throw new AppError("중복된 정보입니다.", 400);
+    else if(dateLocationCHeck) throw new AppError("다른 이름으로 등록된 장소입니다.", 400);
+    return dateDao.postDate(name, location, mainImg, userId, opentime, closetime, description);
 };
 
 const postCategory = async (categoryId) => {
     const categoryCheck = await dateDao.categoryCheck(categoryId);
-    if (categoryCheck) {
-        const err = new Error("중복된 카테고리입니다.");
-        err.statusCode = 409;
-        throw err;
-    };
+    if (categoryCheck) throw new AppError("중복된 카테고리입니다.", 400);
     const postCategory = await dateDao.postCategory(categoryId);
     return postCategory;
 };

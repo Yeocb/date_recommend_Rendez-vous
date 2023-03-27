@@ -1,4 +1,5 @@
 const { AppDataSource } = require("../models/dataSource");
+const AppError = require("../middlewares/appError")
 
 const postDate = async (name, location, mainImg, userId, opentime, closetime, description) => {
     try {
@@ -16,33 +17,39 @@ const postDate = async (name, location, mainImg, userId, opentime, closetime, de
 			[ name, location, mainImg, userId, opentime, closetime, description ]
 	  	);
 	} catch (err) {
-		const error = new Error('INVALID_DATA_INPUT');
-		error.statusCode = 500;
-		throw error;
+		throw new AppError('INVALID_DATA', 500);
 	}
 };
 
 const dateNameLocationCheck = async (name, location) => {
-	const [dateInfoCheck] = await AppDataSource.query(
-		`SELECT
-			d.name,
-			d.location
-		FROM date d
-		WHERE d.name='${name}' AND d.location='${location}'
-		`
-	);
-	return dateInfoCheck;
+	try {
+		const [dateInfoCheck] = await AppDataSource.query(
+			`SELECT
+				d.name,
+				d.location
+			FROM date d
+			WHERE d.name='${name}' AND d.location='${location}'
+			`
+		);
+		return dateInfoCheck;
+	} catch (err) {
+		throw new AppError('INVALID_DATA', 500);
+	}
 };
 
 const dateLocationCheck = async (location) => {
-	const [dateLocationCheck] = await AppDataSource.query(
-		`SELECT
-			d.location
-		FROM date d
-		WHERE d.location='${location}'
-		`
-	);
-	return dateLocationCheck;
+	try {
+		const [dateLocationCheck] = await AppDataSource.query(
+			`SELECT
+				d.location
+			FROM date d
+			WHERE d.location='${location}'
+			`
+		);
+		return dateLocationCheck;
+	} catch (err) {
+		throw new AppError('INVALID_DATA', 500);
+	}
 };
 
 const postCategory = async (categoryId) => {
@@ -56,21 +63,23 @@ const postCategory = async (categoryId) => {
 			[categoryId]
 		)
 	} catch (err) {
-		const error = new Error('INVALID_DATA_INPUT');
-		error.statusCode = 500;
-		throw error;
+		throw new AppError('INVALID_DATA', 500);
 	}
 };
 
 const categoryCheck = async (categoryId) => {
-    const [categoryIdCheck] = await AppDataSource.query(
-        `SELECT 
-			dc.category_id
-		FROM date_category dc
-		WHERE dc.date_id=(LAST_INSERT_ID()) AND dc.category_id='${categoryId}'
-        `
-    );
-    return categoryIdCheck;
+	try {
+		const [categoryIdCheck] = await AppDataSource.query(
+			`SELECT 
+				dc.category_id
+			FROM date_category dc
+			WHERE dc.date_id=(LAST_INSERT_ID()) AND dc.category_id='${categoryId}'
+			`
+		);
+		return categoryIdCheck;
+	} catch (err) {
+		throw new AppError('INVALID_DATA', 500);
+	}
 };
 
 const getList = async () => {
@@ -86,10 +95,7 @@ const getList = async () => {
 			`
 		)
 	} catch (err) {
-		console.log(err);
-		const error = new Error('INVALID_DATA_INPUT');
-		error.statusCode = 500;
-		throw error;
+		throw new AppError('INVALID_DATA', 500);
 	}
 };
 
@@ -114,9 +120,7 @@ const recommendDate = async (location, categoryId) => {
 			`
 		)
 	} catch (err) {
-		const error = new Error(err,'INVALID_DATA_INPUT');
-		error.statusCode = 500;
-		throw error;
+		throw new AppError('INVALID_DATA', 500);
 	}
 };
 
@@ -139,29 +143,25 @@ const recommendRandom = async () => {
 			`
 		)
 	} catch (err) {
-		const error = new Error(err,'INVALID_DATA_INPUT');
-		error.statusCode = 500;
-		throw error;
+		throw new AppError('INVALID_DATA', 500);
 	}
 };
 
 const updateDate = async (dateId, name, location, description, opentime, closetime) => {
 	try{
 		return await AppDataSource.query(
-			`UPDATE date
-				SET	name = ?,
-					location = ?,
-					description = ?,
-					opentime= ?,
-					closetime = ?
+			`UPDATE date SET	
+				name = ?,
+				location = ?,
+				description = ?,
+				opentime= ?,
+				closetime = ?
 				WHERE date.id ='${dateId}'
 			`,
 			[name, location, description, opentime, closetime]
 		);
 	} catch (err) {
-		const error = new Error(err,'INVALID_DATA_INPUT');
-		error.statusCode = 500;
-		throw error;
+		throw new AppError('INVALID_DATA', 500);
 	}
 };
 
@@ -174,9 +174,7 @@ const deleteCategory = async (dateId, categoryId) => {
 			[dateId, categoryId]
 		);
 	} catch (err) {
-		const error = new Error(err,'INVALID_DATA_INPUT');
-		error.statusCode = 500;
-		throw error;
+		throw new AppError('INVALID_DATA', 500);
 	}
 };
 
@@ -188,9 +186,7 @@ const deleteDate = async (dateId) => {
 			`
 		);
 	} catch (err) {
-		const error = new Error(err,'INVALID_DATA_INPUT');
-		error.statusCode = 500;
-		throw error;
+		throw new AppError('INVALID_DATA', 500);
 	}
 };
 
@@ -202,9 +198,7 @@ const deleteAllCategory = async (dateId) => {
 			`
 		);
 	} catch (err) {
-		const error = new Error(err,'INVALID_DATA_INPUT');
-		error.statusCode = 500;
-		throw error;
+		throw new AppError('INVALID_DATA', 500);
 	}
 };
 

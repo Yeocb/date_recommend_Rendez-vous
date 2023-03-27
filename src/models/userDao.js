@@ -1,4 +1,5 @@
 const { AppDataSource } = require("../models/dataSource");
+const AppError = require("../middlewares/appError")
 
 const userSignUp = async (email, password, name) => {
     try {
@@ -12,23 +13,40 @@ const userSignUp = async (email, password, name) => {
 		[ email, password, name ]
 	  );
 	} catch (err) {
-		const error = new Error('INVALID_DATA_INPUT');
-		error.statusCode = 500;
-		throw error;
+		throw new AppError("INVALID_DATA_INPUT", 500);
 	}
 };
 
 const emailCheck = async (email) => {
-    const [userEmail] = await AppDataSource.query(
-        `SELECT*
-         FROM users u
-         WHERE u.email = '${email}'
-        `
-    );
-    return userEmail;
+	try {
+		return await AppDataSource.query(
+			`SELECT*
+			FROM users u
+			WHERE u.email = '${email}'
+			`
+		);
+	} catch (err) {
+		throw new AppError("INVALID_DATA_INPUT", 500);
+	}
+};
+
+
+const userSignIn = async (email) => {
+	try {
+		const [userInfo] = await AppDataSource.query(
+			`SELECT*
+			FROM users u
+			WHERE u.email = '${email}'
+			`
+		);
+		return userInfo;
+	} catch (err) {
+		throw new AppError("INVALID_DATA_INPUT", 500);
+	}
 };
 
 module.exports = {
     userSignUp,
     emailCheck,
+	userSignIn,
 };
