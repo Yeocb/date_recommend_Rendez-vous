@@ -1,17 +1,19 @@
 const express = require('express');
 const router = express.Router();
+const errorHandler = require("../middlewares/errorHandler");
+const auth = require('../middlewares/auth')
 
 const dateController = require("../controllers/dateController")
 
-router.post("/adddate",dateController.postDate)
-router.post("/addcategory",dateController.postCategory)
-router.get("/list",dateController.getDateList)
-router.get("/recommend",dateController.recommendDate)  //지역과 카테고리 하나만 설정가능
-router.get("/recommendmany",dateController.recommendManyDate)  //recommend 3번 반복.
-router.get("/randomrecommed",dateController.recommendRandom)  // 완전랜덤 추천
-router.patch("/:dateId",dateController.updateDate)
-router.delete("/updatecategory/:dateId",dateController.deleteCategory)
-router.delete("/:dateId",dateController.deleteDate)
+router.post("/adddate",errorHandler(dateController.postDate))
+router.post("/addcategory",errorHandler(dateController.postCategory))
+router.get("/list",errorHandler(dateController.getDateList))
+router.get("/recommend",errorHandler(dateController.recommendDate))  //지역과 카테고리 하나만 설정가능
+//router.get("/recommendmany",errorHandler(dateController.recommendManyDate))  //recommend 3번 반복.
+router.get("/randomrecommed",auth.validateToken,errorHandler(dateController.recommendRandom))  // 완전랜덤 추천
+router.patch("/:dateId",errorHandler(dateController.updateDate))
+router.delete("/updatecategory/:dateId",errorHandler(dateController.deleteCategory))
+router.delete("/:dateId",errorHandler(dateController.deleteDate))
 
 module.exports = {
     router,

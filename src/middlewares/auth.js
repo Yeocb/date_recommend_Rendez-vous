@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const secretKey = process.env.JWT_SECRET;
+const secretKey = process.env.TOKEN_SECRET;
 
 const validateToken = async (req, res, next) => {
     try {
@@ -9,7 +9,7 @@ const validateToken = async (req, res, next) => {
         next();
     }
     catch (err) {
-        res.status(401).json({ message: "올바른 토큰이 아닙니다." });
+        res.status(401).json({ message: "로그인 정보가 없습니다." });
     }
 };
 

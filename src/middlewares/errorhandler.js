@@ -9,4 +9,5 @@ function errorHandler(asyncController) {
     };
 }
 
-module.exports = errorHandler;
+module.exports = 
+    errorHandler;
