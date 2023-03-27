@@ -66,7 +66,7 @@ const expDelete = async (expId, userId) => {
 	} catch (err) {
 		throw new AppError('INVALID_DATA', 500);
 	}
-};
+}; 
 
 module.exports = {
     expPost,
