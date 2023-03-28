@@ -5,6 +5,9 @@
 # **DB modeling**
 <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FmT88w%2FbtrWwoRAUt0%2FTzIsx2lAYR8M8V1NAVhUgk%2Fimg.png">
 
+# **블로그**
+<link src ="https://ydeja6.tistory.com/">
+
 # **기능구현**
 
 ### 1.회원가입.
