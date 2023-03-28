@@ -8,6 +8,9 @@
 # **블로그**
 [블로그](https://ydeja6.tistory.com)
 
+# **API**
+[API ](https://documenter.getpostman.com/view/22936893/2s93RQUEhf)
+
 # **기능구현**
 
 ### 1.회원가입.
